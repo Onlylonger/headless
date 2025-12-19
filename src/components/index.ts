@@ -4,3 +4,4 @@ export type { HeadlessToggleProps, HeadlessCounterProps } from './types'
 
 
 
+console.log('Hello, world!')
