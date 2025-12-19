@@ -1,4 +1,3 @@
-export { useToggle } from './useToggle';
-export { useCounter } from './useCounter';
-export type { UseToggleReturn, UseCounterReturn } from './types';
-
+export { useToggle } from './useToggle'
+export { useCounter } from './useCounter'
+export type { UseToggleReturn, UseCounterReturn } from './types'

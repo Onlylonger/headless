@@ -2,35 +2,44 @@
   "name": "@shilong/headless",
   "version": "0.1.0",
   "description": "A headless React library with components and hooks",
+  "keywords": [
+    "components",
+    "headless",
+    "hooks",
+    "react",
+    "ui-library"
+  ],
+  "license": "MIT",
+  "author": "",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./hooks/*": {
-      "import": "./dist/hooks/*.js",
-      "types": "./dist/hooks/*.d.ts"
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.js"
     },
     "./components/*": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
     },
     "./hooks": {
-      "import": "./dist/hooks/index.js",
-      "types": "./dist/hooks/index.d.ts"
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
     },
     "./components": {
-      "import": "./dist/components/index.js",
-      "types": "./dist/components/index.d.ts"
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "dev": "vite build --watch",
     "build": "tsc && vite build",
@@ -40,34 +49,30 @@
     "pg:preview": "vite preview --config vite.config.playground.ts",
     "type-check": "tsc --noEmit",
     "lint": "oxlint",
-    "lint:fix": "oxlint --fix"
-  },
-  "keywords": [
-    "react",
-    "headless",
-    "components",
-    "hooks",
-    "ui-library"
-  ],
-  "author": "",
-  "license": "MIT",
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/node": "^25.0.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^5.0.0",
+    "husky": "^9.1.7",
+    "oxfmt": "^0.19.0",
     "oxlint": "^1.34.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.6.3",
     "vite": "8.0.0-beta.0",
     "vite-plugin-dts": "^4.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

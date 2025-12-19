@@ -1,14 +1,14 @@
-import { useToggle, useCounter, HeadlessToggle, HeadlessCounter } from '../src';
-import './App.css';
+import { useToggle, useCounter, HeadlessToggle, HeadlessCounter } from '../src'
+import './App.css'
 
 function App() {
-  const [isOpen, toggle, setIsOpen] = useToggle(false);
+  const [isOpen, toggle, setIsOpen] = useToggle(false)
   const [count, { increment, decrement, reset }] = useCounter({
     initialValue: 0,
     min: 0,
     max: 10,
     step: 1,
-  });
+  })
 
   return (
     <div className="app">
@@ -24,7 +24,9 @@ function App() {
           <div className="demo-card">
             <h3>useToggle</h3>
             <div className="demo-content">
-              <p>Current state: <strong>{isOpen ? 'Open' : 'Closed'}</strong></p>
+              <p>
+                Current state: <strong>{isOpen ? 'Open' : 'Closed'}</strong>
+              </p>
               <div className="demo-buttons">
                 <button onClick={toggle}>Toggle</button>
                 <button onClick={() => setIsOpen(true)}>Open</button>
@@ -36,7 +38,9 @@ function App() {
           <div className="demo-card">
             <h3>useCounter</h3>
             <div className="demo-content">
-              <p>Current count: <strong>{count}</strong></p>
+              <p>
+                Current count: <strong>{count}</strong>
+              </p>
               <div className="demo-buttons">
                 <button onClick={decrement}>-</button>
                 <button onClick={increment}>+</button>
@@ -55,7 +59,9 @@ function App() {
               <HeadlessToggle>
                 {({ isOn, toggle, setOn, setOff }) => (
                   <div>
-                    <p>State: <strong>{isOn ? 'On' : 'Off'}</strong></p>
+                    <p>
+                      State: <strong>{isOn ? 'On' : 'Off'}</strong>
+                    </p>
                     <div className="demo-buttons">
                       <button onClick={toggle}>Toggle</button>
                       <button onClick={setOn}>Turn On</button>
@@ -73,7 +79,9 @@ function App() {
               <HeadlessCounter initialValue={5} min={0} max={20} step={2}>
                 {({ count, increment, decrement, reset, setValue }) => (
                   <div>
-                    <p>Count: <strong>{count}</strong></p>
+                    <p>
+                      Count: <strong>{count}</strong>
+                    </p>
                     <div className="demo-buttons">
                       <button onClick={decrement}>-2</button>
                       <button onClick={increment}>+2</button>
@@ -88,8 +96,7 @@ function App() {
         </section>
       </main>
     </div>
-  );
+  )
 }
 
-export default App;
-
+export default App

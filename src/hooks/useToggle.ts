@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import type { UseToggleReturn } from './types';
+import { useState, useCallback } from 'react'
+import type { UseToggleReturn } from './types'
 
 /**
  * A headless hook for managing boolean toggle state
@@ -16,16 +16,15 @@ import type { UseToggleReturn } from './types';
  * ```
  */
 export function useToggle(initialValue = false): UseToggleReturn {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState(initialValue)
 
   const toggle = useCallback(() => {
-    setValue((prev) => !prev);
-  }, []);
+    setValue((prev) => !prev)
+  }, [])
 
   const setToggle = useCallback((newValue: boolean) => {
-    setValue(newValue);
-  }, []);
+    setValue(newValue)
+  }, [])
 
-  return [value, toggle, setToggle];
+  return [value, toggle, setToggle]
 }
-

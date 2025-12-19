@@ -1,5 +1,5 @@
-import { useToggle } from '../hooks/useToggle';
-import type { HeadlessToggleProps } from './types';
+import { useToggle } from '../hooks/useToggle'
+import type { HeadlessToggleProps } from './types'
 
 /**
  * A headless toggle component that provides toggle functionality
@@ -22,37 +22,36 @@ export function HeadlessToggle({
   onChange,
   children,
 }: HeadlessToggleProps) {
-  const [internalValue, toggle, setValue] = useToggle(initialValue);
+  const [internalValue, toggle, setValue] = useToggle(initialValue)
 
-  const isControlled = controlledValue !== undefined;
-  const isOn = isControlled ? controlledValue : internalValue;
+  const isControlled = controlledValue !== undefined
+  const isOn = isControlled ? controlledValue : internalValue
 
   const handleToggle = () => {
     if (!isControlled) {
-      toggle();
+      toggle()
     }
-    onChange?.(!isOn);
-  };
+    onChange?.(!isOn)
+  }
 
   const setOn = () => {
     if (!isControlled) {
-      setValue(true);
+      setValue(true)
     }
-    onChange?.(true);
-  };
+    onChange?.(true)
+  }
 
   const setOff = () => {
     if (!isControlled) {
-      setValue(false);
+      setValue(false)
     }
-    onChange?.(false);
-  };
+    onChange?.(false)
+  }
 
   return children({
     isOn,
     toggle: handleToggle,
     setOn,
     setOff,
-  });
+  })
 }
-

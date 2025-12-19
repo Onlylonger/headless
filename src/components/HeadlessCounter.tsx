@@ -1,5 +1,5 @@
-import { useCounter } from '../hooks/useCounter';
-import type { HeadlessCounterProps } from './types';
+import { useCounter } from '../hooks/useCounter'
+import type { HeadlessCounterProps } from './types'
 
 /**
  * A headless counter component that provides counter functionality
@@ -32,44 +32,44 @@ export function HeadlessCounter({
     min,
     max,
     step,
-  });
+  })
 
-  const isControlled = controlledValue !== undefined;
-  const count = isControlled ? controlledValue : internalCount;
+  const isControlled = controlledValue !== undefined
+  const count = isControlled ? controlledValue : internalCount
 
   const increment = () => {
     if (!isControlled) {
-      actions.increment();
+      actions.increment()
     }
-    const nextValue = count + step;
+    const nextValue = count + step
     if (max === undefined || nextValue <= max) {
-      onChange?.(nextValue);
+      onChange?.(nextValue)
     }
-  };
+  }
 
   const decrement = () => {
     if (!isControlled) {
-      actions.decrement();
+      actions.decrement()
     }
-    const nextValue = count - step;
+    const nextValue = count - step
     if (min === undefined || nextValue >= min) {
-      onChange?.(nextValue);
+      onChange?.(nextValue)
     }
-  };
+  }
 
   const reset = () => {
     if (!isControlled) {
-      actions.reset();
+      actions.reset()
     }
-    onChange?.(initialValue);
-  };
+    onChange?.(initialValue)
+  }
 
   const setValue = (newValue: number) => {
     if (!isControlled) {
-      actions.setValue(newValue);
+      actions.setValue(newValue)
     }
-    onChange?.(newValue);
-  };
+    onChange?.(newValue)
+  }
 
   return children({
     count,
@@ -77,6 +77,5 @@ export function HeadlessCounter({
     decrement,
     reset,
     setValue,
-  });
+  })
 }
-
