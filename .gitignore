@@ -16,8 +16,6 @@ dist-ssr
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-!.vscode/settings.json
-.cursor
 .idea
 .DS_Store
 *.suo
@@ -26,11 +24,16 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment variables
-.env
-.env.local
-.env.*.local
+# Test coverage
+coverage
+playwright-report
+test-results
+.nyc_output
 
-# Build outputs
-*.tsbuildinfo
+# Vitest
+.vitest
 
+# Cursor
+.cursor/**
+!.cursor/rules/
+!.cursor/rules/**/*.mdc

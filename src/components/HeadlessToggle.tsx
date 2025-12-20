@@ -1,4 +1,4 @@
-import { useToggle } from '../hooks/useToggle'
+import { useToggle } from '../hooks/use-toggle'
 import type { HeadlessToggleProps } from './types'
 
 /**

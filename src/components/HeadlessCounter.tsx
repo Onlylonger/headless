@@ -1,4 +1,4 @@
-import { useCounter } from '../hooks/useCounter'
+import { useCounter } from '../hooks/use-counter'
 import type { HeadlessCounterProps } from './types'
 
 /**

@@ -1,4 +1,4 @@
-import { useToggle, useCounter, HeadlessToggle, HeadlessCounter } from '../src'
+import { useToggle, useCounter, useHover, HeadlessToggle, HeadlessCounter } from '../src'
 import './App.css'
 
 function App() {
@@ -8,6 +8,10 @@ function App() {
     min: 0,
     max: 10,
     step: 1,
+  })
+  const { isHovered, hoverProps } = useHover({
+    onHoverStart: () => console.log('Hover started'),
+    onHoverEnd: () => console.log('Hover ended'),
   })
 
   return (
@@ -45,6 +49,28 @@ function App() {
                 <button onClick={decrement}>-</button>
                 <button onClick={increment}>+</button>
                 <button onClick={reset}>Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div className="demo-card">
+            <h3>useHover</h3>
+            <div className="demo-content">
+              <p>
+                Hover state: <strong>{isHovered ? 'Hovered' : 'Not Hovered'}</strong>
+              </p>
+              <div
+                {...hoverProps}
+                style={{
+                  padding: '20px',
+                  border: '2px solid #007bff',
+                  borderRadius: '8px',
+                  backgroundColor: isHovered ? '#e7f3ff' : '#f8f9fa',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+              >
+                Hover over me! (data-hover: {String(hoverProps['data-hover'])})
               </div>
             </div>
           </div>

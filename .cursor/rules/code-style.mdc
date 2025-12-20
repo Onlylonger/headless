@@ -1,0 +1,39 @@
+# Coding Style Rules
+
+## Function Declaration
+
+- Use function declarations, avoid declaring return types when TypeScript can infer them
+- Example:
+  ```tsx
+  export function Button(props: ButtonProps) {
+    const { disabled = false, ...rest } = props;
+    return <button {...rest} />;
+  }
+  ```
+
+## Naming Convention
+
+- **File names**: Use kebab-case (e.g., `modal-box.tsx`, `use-hover.ts`)
+- **Export names**: Use camelCase (e.g., `ModalBox`, `useHover`)
+- **Directory structure**: If a file has multiple dependent functions, create a subdirectory and place dependencies in that subdirectory, then export via `index.ts`
+
+## Testing
+
+- Use E2E (end-to-end) testing with Playwright
+- Create `USECASES.md` test cases in the corresponding component or hooks directory. This `USECASES.md` should clearly document: what are the use case scenarios.不需要代码，属于用户层面的理解，要抽象非代码，用自然语言描述
+
+## Code Organization
+
+- Place E2E test files (`.e2e.spec.ts`) in the same directory as the component/hook they test
+- Use descriptive test names in Chinese for E2E tests
+- Ensure all tests pass before committing
+
+## README.md
+
+Each component or hook should have a README.md documentation file with the following structure:
+
+- **Overview**: Brief introduction and use case scenarios
+- **Usage Examples**: Specific use case examples
+- **Parameters**: Input parameters (options/props)
+- **Return Value**: Return content and structure
+- **Notes**: Important considerations and caveats

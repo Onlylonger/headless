@@ -9,3 +9,6 @@ export type UseCounterReturn = [
     setValue: (value: number) => void
   },
 ]
+
+export type { UseHoverReturn, UseHoverOptions, HoverEvent } from './use-hover'
+export type { UseFocusRingReturn, UseFocusRingOptions } from './use-focus-ring'
