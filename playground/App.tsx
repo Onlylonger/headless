@@ -1,14 +1,7 @@
-import { useToggle, useCounter, useHover, HeadlessToggle, HeadlessCounter } from '../src'
+import { useHover, Button } from '../src'
 import './App.css'
 
 function App() {
-  const [isOpen, toggle, setIsOpen] = useToggle(false)
-  const [count, { increment, decrement, reset }] = useCounter({
-    initialValue: 0,
-    min: 0,
-    max: 10,
-    step: 1,
-  })
   const { isHovered, hoverProps } = useHover({
     onHoverStart: () => console.log('Hover started'),
     onHoverEnd: () => console.log('Hover ended'),
@@ -24,34 +17,6 @@ function App() {
       <main className="app-main">
         <section className="demo-section">
           <h2>Hooks</h2>
-
-          <div className="demo-card">
-            <h3>useToggle</h3>
-            <div className="demo-content">
-              <p>
-                Current state: <strong>{isOpen ? 'Open' : 'Closed'}</strong>
-              </p>
-              <div className="demo-buttons">
-                <button onClick={toggle}>Toggle</button>
-                <button onClick={() => setIsOpen(true)}>Open</button>
-                <button onClick={() => setIsOpen(false)}>Close</button>
-              </div>
-            </div>
-          </div>
-
-          <div className="demo-card">
-            <h3>useCounter</h3>
-            <div className="demo-content">
-              <p>
-                Current count: <strong>{count}</strong>
-              </p>
-              <div className="demo-buttons">
-                <button onClick={decrement}>-</button>
-                <button onClick={increment}>+</button>
-                <button onClick={reset}>Reset</button>
-              </div>
-            </div>
-          </div>
 
           <div className="demo-card">
             <h3>useHover</h3>
@@ -80,43 +45,68 @@ function App() {
           <h2>Components</h2>
 
           <div className="demo-card">
-            <h3>HeadlessToggle</h3>
+            <h3>Button</h3>
             <div className="demo-content">
-              <HeadlessToggle>
-                {({ isOn, toggle, setOn, setOff }) => (
-                  <div>
-                    <p>
-                      State: <strong>{isOn ? 'On' : 'Off'}</strong>
-                    </p>
-                    <div className="demo-buttons">
-                      <button onClick={toggle}>Toggle</button>
-                      <button onClick={setOn}>Turn On</button>
-                      <button onClick={setOff}>Turn Off</button>
-                    </div>
-                  </div>
-                )}
-              </HeadlessToggle>
-            </div>
-          </div>
-
-          <div className="demo-card">
-            <h3>HeadlessCounter</h3>
-            <div className="demo-content">
-              <HeadlessCounter initialValue={5} min={0} max={20} step={2}>
-                {({ count, increment, decrement, reset, setValue }) => (
-                  <div>
-                    <p>
-                      Count: <strong>{count}</strong>
-                    </p>
-                    <div className="demo-buttons">
-                      <button onClick={decrement}>-2</button>
-                      <button onClick={increment}>+2</button>
-                      <button onClick={reset}>Reset</button>
-                      <button onClick={() => setValue(10)}>Set to 10</button>
-                    </div>
-                  </div>
-                )}
-              </HeadlessCounter>
+              <Button
+                onClick={() => console.log('Button clicked')}
+                style={{
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  marginRight: '10px',
+                }}
+              >
+                Click me
+              </Button>
+              <Button
+                disabled
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '4px',
+                  opacity: 0.5,
+                  cursor: 'not-allowed',
+                  marginRight: '10px',
+                }}
+              >
+                Disabled
+              </Button>
+              <Button
+                loading
+                onClick={() => console.log('This should not fire')}
+                style={{
+                  backgroundColor: '#28a745',
+                  color: 'white',
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '4px',
+                  opacity: 0.7,
+                  cursor: 'not-allowed',
+                }}
+              >
+                Loading...
+              </Button>
+              <div style={{ marginTop: '10px' }}>
+                <Button
+                  as="div"
+                  onClick={() => console.log('Div button clicked')}
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: '#ffc107',
+                    color: 'black',
+                    padding: '10px 20px',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Custom Element (div)
+                </Button>
+              </div>
             </div>
           </div>
         </section>
