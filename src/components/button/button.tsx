@@ -1,4 +1,4 @@
-import type { ElementType } from 'react'
+import { forwardRef, type ElementType } from 'react'
 import type { ButtonComponentProps } from './types'
 
 /**
@@ -36,19 +36,18 @@ import type { ButtonComponentProps } from './types'
  * </Button>
  * ```
  */
-export function Button<T extends ElementType = 'button'>({
-  as,
-  loading = false,
-  type = 'button',
-  children,
-  ...rest
-}: ButtonComponentProps<T>): JSX.Element {
+function ButtonImpl(
+  props: ButtonComponentProps<ElementType>,
+  ref: React.ForwardedRef<HTMLElement>
+) {
+  const { as, loading = false, type = 'button', children, ...rest } = props
   const Component = (as || 'button') as ElementType
 
   const isDisabled = rest.disabled || loading
 
-  const props = {
+  const buttonProps = {
     ...rest,
+    ref,
     disabled: isDisabled,
     'data-loading': loading,
     ...(Component === 'button' && {
@@ -56,5 +55,9 @@ export function Button<T extends ElementType = 'button'>({
     }),
   }
 
-  return <Component {...props}>{children}</Component>
+  return <Component {...buttonProps}>{children}</Component>
 }
+
+export const Button = forwardRef(ButtonImpl) as <T extends ElementType = 'button'>(
+  props: ButtonComponentProps<T> & { ref?: React.ComponentPropsWithRef<T>['ref'] }
+) => JSX.Element
