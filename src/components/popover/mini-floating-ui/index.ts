@@ -1,5 +1,0 @@
-export { createPopper } from './createPopper'
-export * from './constants'
-export * from './interface'
-export * from './utils'
-export * from './modifiers'

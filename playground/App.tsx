@@ -1,16 +1,28 @@
-import { useState } from 'react'
-import { useHover, Button, Popover } from '../src'
+import { useEffect, useRef, useState } from 'react'
+import {
+  useHover,
+  Button,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeading,
+  DialogDescription,
+  DialogClose,
+  createDialog,
+  useCreateDialog,
+} from '../src'
 import './App.css'
 
+// const { Dialog: CreateDialog, store } = createDialog()
+
 function App() {
+  // const dialogRef = useRef<ReturnType<typeof createDialog> | null>(null)
   const { isHovered, hoverProps } = useHover({
     onHoverStart: () => console.log('Hover started'),
     onHoverEnd: () => console.log('Hover ended'),
   })
 
-  const [popoverOpen, setPopoverOpen] = useState(false)
-  const [tooltipOpen, setTooltipOpen] = useState(false)
-  const [arrowPopoverOpen, setArrowPopoverOpen] = useState(false)
+  const { Dialog: CreateDialogRef, store: createDialogStore } = useCreateDialog()
 
   return (
     <div className="app">
@@ -18,6 +30,20 @@ function App() {
         <h1>@shilong/headless</h1>
         <p>A headless React library with components and hooks</p>
       </header>
+      <Button onClick={() => createDialogStore?.getState().open()}>ceshiyixia2222</Button>
+      <CreateDialogRef>
+        <Button>nihaoaa</Button>
+      </CreateDialogRef>
+      {/* <Button onClick={() => store.getState().open()}>ceshiyixia</Button> */}
+      {/* <CreateDialog>nihao</CreateDialog> */}
+      {/* <Dialog>
+        <DialogTrigger>My trigger</DialogTrigger>
+        <DialogContent className="Dialog">
+          <DialogHeading>My dialog heading</DialogHeading>
+          <DialogDescription>My dialog description</DialogDescription>
+          <DialogClose>Close</DialogClose>
+        </DialogContent>
+      </Dialog> */}
 
       <main className="app-main">
         <section className="demo-section">
@@ -98,7 +124,7 @@ function App() {
               </Button>
               <div style={{ marginTop: '10px' }}>
                 <Button
-                  as="div"
+                  component="div"
                   onClick={() => console.log('Div button clicked')}
                   style={{
                     display: 'inline-block',
@@ -111,135 +137,6 @@ function App() {
                 >
                   Custom Element (div)
                 </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="demo-card">
-            <h3>Popover</h3>
-            <div className="demo-content">
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '10px' }}>
-                <Popover
-                  open={popoverOpen}
-                  onOpenChange={setPopoverOpen}
-                  placement="bottom"
-                  content={
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        backgroundColor: 'white',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                        border: '1px solid #e0e0e0',
-                        minWidth: '150px',
-                      }}
-                    >
-                      <p style={{ margin: 0, fontSize: '14px' }}>Popover content</p>
-                      <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
-                        Click outside to close
-                      </p>
-                    </div>
-                  }
-                >
-                  <Button
-                    onClick={() => setPopoverOpen(!popoverOpen)}
-                    style={{
-                      backgroundColor: '#007bff',
-                      color: 'white',
-                      padding: '10px 20px',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Toggle Popover
-                  </Button>
-                </Popover>
-
-                <Popover
-                  open={tooltipOpen}
-                  onOpenChange={setTooltipOpen}
-                  placement="top"
-                  offset={12}
-                  content={
-                    <div
-                      style={{
-                        padding: '8px 12px',
-                        backgroundColor: '#333',
-                        color: 'white',
-                        borderRadius: '6px',
-                        fontSize: '12px',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      This is a tooltip
-                    </div>
-                  }
-                >
-                  <Button
-                    onMouseEnter={() => setTooltipOpen(true)}
-                    onMouseLeave={() => setTooltipOpen(false)}
-                    style={{
-                      backgroundColor: '#6c757d',
-                      color: 'white',
-                      padding: '10px 20px',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Hover for Tooltip
-                  </Button>
-                </Popover>
-
-                <Popover
-                  open={arrowPopoverOpen}
-                  onOpenChange={setArrowPopoverOpen}
-                  placement="right"
-                  showArrow
-                  offset={12}
-                  content={
-                    <div
-                      style={{
-                        padding: '12px 16px',
-                        backgroundColor: '#28a745',
-                        color: 'white',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-                        minWidth: '120px',
-                      }}
-                    >
-                      <p style={{ margin: 0, fontSize: '14px' }}>Popover with arrow</p>
-                    </div>
-                  }
-                >
-                  <Button
-                    onClick={() => setArrowPopoverOpen(!arrowPopoverOpen)}
-                    style={{
-                      backgroundColor: '#28a745',
-                      color: 'white',
-                      padding: '10px 20px',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Arrow Popover
-                  </Button>
-                </Popover>
-              </div>
-              <div
-                style={{
-                  marginTop: '20px',
-                  padding: '10px',
-                  backgroundColor: '#f8f9fa',
-                  borderRadius: '4px',
-                }}
-              >
-                <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>
-                  <strong>Tips:</strong> Popovers automatically adjust position to stay within
-                  viewport. Try scrolling or resizing the window.
-                </p>
               </div>
             </div>
           </div>

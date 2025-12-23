@@ -1,17 +1,15 @@
-import type { ElementType, ComponentPropsWithoutRef } from 'react'
+import type * as React from 'react'
+import type { ElementType } from 'react'
+import type { PolymorphicComponentProps } from '../../utils/polymorphic'
 
-export interface ButtonProps<T extends ElementType = 'button'> {
-  /**
-   * The element or component to render
-   */
-  as?: T
+export interface ButtonOwnProps {
   /**
    * Whether the button is in loading state
    * When true, the button will be disabled and have data-loading="true" attribute
    */
   loading?: boolean
   /**
-   * Button type (only applies when as="button")
+   * Button type (only applies when component="button" or component is not specified)
    */
   type?: 'button' | 'submit' | 'reset'
   /**
@@ -20,5 +18,9 @@ export interface ButtonProps<T extends ElementType = 'button'> {
   children?: React.ReactNode
 }
 
-export type ButtonComponentProps<T extends ElementType = 'button'> = ButtonProps<T> &
-  Omit<ComponentPropsWithoutRef<T>, keyof ButtonProps<T> | 'type' | 'children'>
+export type ButtonComponentProps<T extends ElementType = 'button'> = PolymorphicComponentProps<
+  T,
+  ButtonOwnProps
+>
+
+export type ButtonProps<T extends ElementType = 'button'> = ButtonComponentProps<T>

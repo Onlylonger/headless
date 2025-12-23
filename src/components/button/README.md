@@ -69,7 +69,7 @@ import { Button } from '@shilong/headless/components';
 function CustomElementButton() {
   return (
     <Button
-      as="div"
+      component="div"
       onClick={() => console.log('clicked')}
       style={{ cursor: 'pointer' }}
     >
@@ -87,7 +87,7 @@ import { Link } from 'react-router-dom';
 
 function CustomComponentButton() {
   return (
-    <Button as={Link} to="/page" onClick={() => console.log('clicked')}>
+    <Button component={Link} to="/page" onClick={() => console.log('clicked')}>
       Navigate
     </Button>
   );
@@ -141,14 +141,14 @@ function StyledButton() {
 
 ```typescript
 interface ButtonProps<T extends ElementType = 'button'> {
-  as?: T;
+  component?: T;
   loading?: boolean;
   type?: 'button' | 'submit' | 'reset';
   children?: React.ReactNode;
 }
 ```
 
-#### as
+#### component
 
 - **Type**: `T extends ElementType`
 - **Required**: No
@@ -167,7 +167,7 @@ interface ButtonProps<T extends ElementType = 'button'> {
 - **Type**: `'button' | 'submit' | 'reset'`
 - **Required**: No
 - **Default**: `'button'`
-- **Description**: Button type attribute. Only applies when `as="button"` or `as` is not specified.
+- **Description**: Button type attribute. Only applies when `component="button"` or `component` is not specified.
 
 #### children
 
@@ -214,13 +214,13 @@ The component renders the specified element or component with:
 
 ### Type Inference
 
-- When using `as={CustomComponent}`, TypeScript will automatically infer the props of `CustomComponent`
+- When using `component={CustomComponent}`, TypeScript will automatically infer the props of `CustomComponent`
 - This provides full type safety and autocomplete for custom component props
-- Example: `<Button as={Link} to="/page" />` will have type checking for `Link` component props
+- Example: `<Button component={Link} to="/page" />` will have type checking for `Link` component props
 
 ### Custom Elements
 
-- When `as` is a string (e.g., `as="div"`), the component renders as that HTML element
+- When `component` is a string (e.g., `component="div"`), the component renders as that HTML element
 - All standard HTML attributes for that element are supported
 - The `disabled` attribute only applies to button elements
 

@@ -1,5 +1,7 @@
-import { forwardRef, type ElementType } from 'react'
-import type { ButtonComponentProps } from './types'
+import * as React from 'react'
+import type { ElementType } from 'react'
+import { forwardRefPolymorphic } from '../../utils/polymorphic'
+import type { ButtonComponentProps, ButtonOwnProps } from './types'
 
 /**
  * A flexible button component that can render as any element or component.
@@ -24,24 +26,21 @@ import type { ButtonComponentProps } from './types'
  *
  * @example
  * ```tsx
- * <Button as="div" onClick={() => console.log('clicked')}>
+ * <Button component="div" onClick={() => console.log('clicked')}>
  *   Custom element
  * </Button>
  * ```
  *
  * @example
  * ```tsx
- * <Button as={Link} to="/page" onClick={() => console.log('clicked')}>
+ * <Button component={Link} to="/page" onClick={() => console.log('clicked')}>
  *   Custom component
  * </Button>
  * ```
  */
-function ButtonImpl(
-  props: ButtonComponentProps<ElementType>,
-  ref: React.ForwardedRef<HTMLElement>
-) {
-  const { as, loading = false, type = 'button', children, ...rest } = props
-  const Component = (as || 'button') as ElementType
+function ButtonImpl(props: ButtonComponentProps<'button'>, ref: React.ForwardedRef<any>) {
+  const { component, loading = false, type = 'button', children, ...rest } = props
+  const Component: ElementType = component ?? 'button'
 
   const isDisabled = rest.disabled || loading
 
@@ -50,14 +49,13 @@ function ButtonImpl(
     ref,
     disabled: isDisabled,
     'data-loading': loading,
-    ...(Component === 'button' && {
-      type,
-    }),
+    ...(typeof Component === 'string' &&
+      Component === 'button' && {
+        type,
+      }),
   }
 
   return <Component {...buttonProps}>{children}</Component>
 }
 
-export const Button = forwardRef(ButtonImpl) as <T extends ElementType = 'button'>(
-  props: ButtonComponentProps<T> & { ref?: React.ComponentPropsWithRef<T>['ref'] }
-) => JSX.Element
+export const Button = forwardRefPolymorphic<'button', ButtonOwnProps>(ButtonImpl)
