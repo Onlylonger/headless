@@ -29,8 +29,11 @@ export function createDialog() {
 
   function Dialog(props: Omit<DialogProps, 'open' | 'onOpenChange'>) {
     const { children } = props
-    const store = useStore()
-    const { isOpen, close } = store
+    // 优化1: 使用 selector 只订阅需要的字段，避免不必要的重渲染
+    const isOpen = useStore((state) => state.isOpen)
+    const close = useStore((state) => state.close)
+    const open = useStore((state) => state.open)
+
     const [labelId, setLabelId] = React.useState<string | undefined>()
     const [descriptionId, setDescriptionId] = React.useState<string | undefined>()
     const dismissReasonRef = React.useRef<DialogCloseReason>('outside')
@@ -41,10 +44,10 @@ export function createDialog() {
           close(dismissReasonRef.current)
           dismissReasonRef.current = 'outside'
         } else {
-          store.open()
+          open()
         }
       },
-      [store, close]
+      [open, close]
     )
 
     const data = useFloating({
@@ -65,6 +68,12 @@ export function createDialog() {
     const role = useRole(context)
     const interactions = useInteractions([click, dismiss, role])
 
+    // 优化2: 使用 ref 稳定 floating element 引用，避免事件监听器频繁注册/移除
+    const floatingElementRef = React.useRef<HTMLElement | null>(null)
+    React.useEffect(() => {
+      floatingElementRef.current = context.refs.floating.current
+    })
+
     React.useEffect(() => {
       if (!isOpen) return
 
@@ -76,7 +85,7 @@ export function createDialog() {
 
       const handleMouseDown = (e: MouseEvent) => {
         const target = e.target as Node
-        const floatingElement = context.refs.floating.current
+        const floatingElement = floatingElementRef.current
         if (floatingElement && !floatingElement.contains(target)) {
           dismissReasonRef.current = 'outside'
         }
@@ -89,7 +98,15 @@ export function createDialog() {
         document.removeEventListener('keydown', handleKeyDown)
         document.removeEventListener('mousedown', handleMouseDown)
       }
-    }, [isOpen, context.refs.floating])
+    }, [isOpen]) // 移除 context.refs.floating 依赖
+
+    // 优化3: 稳定 closeWithReason 回调，避免每次渲染都创建新函数
+    const closeWithReason = React.useCallback(
+      (reason: DialogCloseReason) => {
+        close(reason)
+      },
+      [close]
+    )
 
     const dialogValue = React.useMemo(
       () => ({
@@ -101,11 +118,9 @@ export function createDialog() {
         descriptionId,
         setLabelId,
         setDescriptionId,
-        closeWithReason: (reason: DialogCloseReason) => {
-          close(reason)
-        },
+        closeWithReason,
       }),
-      [isOpen, interactions, data, labelId, descriptionId, handleOpenChange, close]
+      [isOpen, interactions, data, labelId, descriptionId, handleOpenChange, closeWithReason]
     )
 
     return (
@@ -115,8 +130,26 @@ export function createDialog() {
     )
   }
 
+  // 优化4: 创建便捷的 store API，避免用户需要调用 getState()
+  const storeApi = {
+    get isOpen() {
+      return useStore.getState().isOpen
+    },
+    open: (callbacks?: Parameters<CreateDialogStore['open']>[0]) => {
+      useStore.getState().open(callbacks)
+    },
+    close: (reason?: DialogCloseReason) => {
+      useStore.getState().close(reason)
+    },
+    ok: () => {
+      useStore.getState().ok()
+    },
+    // 保留原始 store 以供高级用法
+    _store: useStore,
+  }
+
   return {
-    store: useStore,
+    store: storeApi,
     Dialog,
   }
 }
@@ -127,13 +160,13 @@ export function useCreateDialog() {
   // 使用 useMemo 在首次渲染时就创建 dialog 实例，避免 Fragment 导致的闪现
   // 这样 Dialog 和 store 始终存在，用户不需要判断 null/undefined
   const dialogInstance = React.useMemo(() => {
-    dialogRef.current = createDialog()
+    dialogRef.current = dialogRef.current ?? createDialog()
     return dialogRef.current
   }, [])
 
   React.useEffect(() => {
     return () => {
-      dialogRef.current?.store.getState().close()
+      dialogRef.current?.store.close()
       dialogRef.current = null
     }
   }, [])

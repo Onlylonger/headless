@@ -61,3 +61,11 @@ export type CreateDialogStore = {
   close: (reason?: DialogCloseReason) => void
   ok: () => void
 }
+
+export type CreateDialogStoreAPI = {
+  readonly isOpen: boolean
+  open: (callbacks?: CreateDialogCallbacks) => void
+  close: (reason?: DialogCloseReason) => void
+  ok: () => void
+  _store: ReturnType<typeof import('zustand').create<CreateDialogStore>>
+}

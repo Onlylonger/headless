@@ -1,16 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import {
-  useHover,
-  Button,
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeading,
-  DialogDescription,
-  DialogClose,
-  createDialog,
-  useCreateDialog,
-} from '../src'
+import { useHover, Button, useCreateDialog } from '../src'
 import './App.css'
 
 // const { Dialog: CreateDialog, store } = createDialog()
@@ -30,7 +18,7 @@ function App() {
         <h1>@shilong/headless</h1>
         <p>A headless React library with components and hooks</p>
       </header>
-      <Button onClick={() => createDialogStore?.getState().open()}>ceshiyixia2222</Button>
+      <Button onClick={() => createDialogStore.open()}>ceshiyixia2222</Button>
       <CreateDialogRef>
         <Button>nihaoaa</Button>
       </CreateDialogRef>
