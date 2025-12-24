@@ -1,27 +1,26 @@
-import * as React from 'react'
-import { useId } from '@floating-ui/react'
 import { useDialogContext } from './context'
 import type { DialogHeadingProps } from './types'
+import { useId } from '@floating-ui/react'
+import { useLayoutEffect, forwardRef, type ForwardedRef } from 'react'
 
-function DialogHeadingImpl(
-  { children, ...props }: DialogHeadingProps,
-  ref: React.ForwardedRef<HTMLHeadingElement>
-) {
+function DialogHeadingImpl(props: DialogHeadingProps, ref: ForwardedRef<HTMLHeadingElement>) {
+  const { children, ...rest } = props
+
   const { setLabelId } = useDialogContext()
   const id = useId()
 
   // Only sets `aria-labelledby` on the Dialog root element
   // if this component is mounted inside it.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     setLabelId(id)
     return () => setLabelId(undefined)
   }, [id, setLabelId])
 
   return (
-    <h2 {...props} ref={ref} id={id}>
+    <h2 {...rest} ref={ref} id={id}>
       {children}
     </h2>
   )
 }
 
-export const DialogHeading = React.forwardRef(DialogHeadingImpl)
+export const DialogHeading = forwardRef(DialogHeadingImpl)

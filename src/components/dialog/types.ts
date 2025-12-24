@@ -1,7 +1,14 @@
-import type * as React from 'react'
 import type { PolymorphicComponentProps } from '../../utils/polymorphic'
-import type { useDialog } from './use-dialog'
 import { ButtonProps } from '../button'
+import type { useDialog } from './use-dialog'
+import type {
+  ReactNode,
+  ElementType,
+  HTMLProps,
+  Dispatch,
+  SetStateAction,
+  ComponentProps,
+} from 'react'
 
 export interface DialogOptions {
   initialOpen?: boolean
@@ -10,41 +17,64 @@ export interface DialogOptions {
 }
 
 export type DialogProps = {
-  children: React.ReactNode
+  children: ReactNode
 } & DialogOptions
 
 export type DialogTriggerOwnProps = {
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export type DialogTriggerProps<C extends React.ElementType = 'button'> = PolymorphicComponentProps<
+export type DialogTriggerProps<C extends ElementType = 'button'> = PolymorphicComponentProps<
   C,
   DialogTriggerOwnProps
 >
 
 export type DialogTriggerImplProps = Omit<DialogTriggerProps<'button'>, 'component'> & {
-  component?: React.ElementType
+  component?: ElementType
 }
 
-export type DialogContentProps = React.HTMLProps<HTMLDivElement>
-export type DialogHeadingProps = React.HTMLProps<HTMLHeadingElement> & {
-  children?: React.ReactNode
+import type {
+  FloatingPortalProps,
+  FloatingFocusManagerProps,
+  FloatingOverlay,
+} from '@floating-ui/react'
+
+export type DialogContentProps = HTMLProps<HTMLDivElement> & {
+  /**
+   * Props for FloatingPortal component
+   * @see https://floating-ui.com/docs/FloatingPortal
+   */
+  portalProps?: Omit<FloatingPortalProps, 'children'>
+  /**
+   * Props for FloatingOverlay component
+   * @see https://floating-ui.com/docs/FloatingOverlay
+   */
+  overlayProps?: Omit<ComponentProps<typeof FloatingOverlay>, 'children'>
+  /**
+   * Props for FloatingFocusManager component
+   * Note: `context` prop is automatically provided and cannot be overridden
+   * @see https://floating-ui.com/docs/FloatingFocusManager
+   */
+  focusManagerProps?: Omit<FloatingFocusManagerProps, 'context' | 'children'>
 }
-export type DialogDescriptionProps = React.HTMLProps<HTMLParagraphElement> & {
-  children?: React.ReactNode
+export type DialogHeadingProps = HTMLProps<HTMLHeadingElement> & {
+  children?: ReactNode
+}
+export type DialogDescriptionProps = HTMLProps<HTMLParagraphElement> & {
+  children?: ReactNode
 }
 export type DialogCloseProps = ButtonProps<'button'>
 
 export type DialogContextValue =
   | (ReturnType<typeof useDialog> & {
-      setLabelId: React.Dispatch<React.SetStateAction<string | undefined>>
-      setDescriptionId: React.Dispatch<React.SetStateAction<string | undefined>>
+      setLabelId: Dispatch<SetStateAction<string | undefined>>
+      setDescriptionId: Dispatch<SetStateAction<string | undefined>>
     })
   | null
 
 export type DialogProviderProps = {
   value: NonNullable<DialogContextValue>
-  children: React.ReactNode
+  children: ReactNode
 }
 
 export type DialogCloseReason = 'escape' | 'outside' | 'cancel'
@@ -56,10 +86,7 @@ export type CreateDialogCallbacks = {
 
 export type CreateDialogStore = {
   isOpen: boolean
-  callbacks: CreateDialogCallbacks | null
-  open: (callbacks?: CreateDialogCallbacks) => void
-  close: (reason?: DialogCloseReason) => void
-  ok: () => void
+  toggle: (value: boolean) => void
 }
 
 export type CreateDialogStoreAPI = {

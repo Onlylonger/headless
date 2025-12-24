@@ -1,30 +1,33 @@
-import * as React from 'react'
+import { useDialogContext } from './context'
+import type { DialogContentProps } from './types'
 import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
   useMergeRefs,
 } from '@floating-ui/react'
-import { useDialogContext } from './context'
-import type { DialogContentProps } from './types'
+import { forwardRef, useMemo, type ForwardedRef } from 'react'
 
-function DialogContentImpl(props: DialogContentProps, ref: React.ForwardedRef<HTMLDivElement>) {
+function DialogContentImpl(props: DialogContentProps, ref: ForwardedRef<HTMLDivElement>) {
+  const { children, portalProps, overlayProps = {}, focusManagerProps, ...rest } = props
+
   const { context: floatingContext, ...context } = useDialogContext()
   const mergedRef = useMergeRefs([context.refs.setFloating, ref])
+  const mergedOverlayProps = useMemo(() => ({ lockScroll: true, ...overlayProps }), [overlayProps])
 
   if (!floatingContext.open) return null
 
   return (
-    <FloatingPortal>
-      <FloatingOverlay className="Dialog-overlay" lockScroll>
-        <FloatingFocusManager context={floatingContext}>
+    <FloatingPortal {...portalProps}>
+      <FloatingOverlay {...mergedOverlayProps}>
+        <FloatingFocusManager context={floatingContext} {...focusManagerProps}>
           <div
             ref={mergedRef}
             aria-labelledby={context.labelId}
             aria-describedby={context.descriptionId}
-            {...context.getFloatingProps(props)}
+            {...context.getFloatingProps(rest)}
           >
-            {props.children}
+            {children}
           </div>
         </FloatingFocusManager>
       </FloatingOverlay>
@@ -32,4 +35,4 @@ function DialogContentImpl(props: DialogContentProps, ref: React.ForwardedRef<HT
   )
 }
 
-export const DialogContent = React.forwardRef(DialogContentImpl)
+export const DialogContent = forwardRef(DialogContentImpl)

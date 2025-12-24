@@ -1,7 +1,6 @@
-import { useHover, Button, useCreateDialog } from '../src'
+import { useHover, Button, DialogTrigger, DialogClose } from '../src'
 import './App.css'
-
-// const { Dialog: CreateDialog, store } = createDialog()
+import { CreateDialog, useCreateDialogStore } from './dialog'
 
 function App() {
   // const dialogRef = useRef<ReturnType<typeof createDialog> | null>(null)
@@ -10,7 +9,7 @@ function App() {
     onHoverEnd: () => console.log('Hover ended'),
   })
 
-  const { Dialog: CreateDialogRef, store: createDialogStore } = useCreateDialog()
+  const toggle = useCreateDialogStore((state) => state.toggle)
 
   return (
     <div className="app">
@@ -18,20 +17,16 @@ function App() {
         <h1>@shilong/headless</h1>
         <p>A headless React library with components and hooks</p>
       </header>
-      <Button onClick={() => createDialogStore.open()}>ceshiyixia2222</Button>
-      <CreateDialogRef>
-        <Button>nihaoaa</Button>
-      </CreateDialogRef>
-      {/* <Button onClick={() => store.getState().open()}>ceshiyixia</Button> */}
-      {/* <CreateDialog>nihao</CreateDialog> */}
-      {/* <Dialog>
-        <DialogTrigger>My trigger</DialogTrigger>
-        <DialogContent className="Dialog">
-          <DialogHeading>My dialog heading</DialogHeading>
-          <DialogDescription>My dialog description</DialogDescription>
-          <DialogClose>Close</DialogClose>
-        </DialogContent>
-      </Dialog> */}
+      <Button onClick={() => toggle(true)}>ceshiyixia2222</Button>
+      <CreateDialog
+        className="Dialog"
+        overlayProps={{
+          className: 'Dialog-overlay',
+        }}
+      >
+        <DialogClose>XXX</DialogClose>
+        content
+      </CreateDialog>
 
       <main className="app-main">
         <section className="demo-section">

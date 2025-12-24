@@ -1,15 +1,13 @@
-import * as React from 'react'
-import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
 import type { DialogOptions } from './types'
+import { useClick, useDismiss, useFloating, useInteractions, useRole } from '@floating-ui/react'
+import { useState, useMemo } from 'react'
 
-export function useDialog({
-  initialOpen = false,
-  open: controlledOpen,
-  onOpenChange: setControlledOpen,
-}: DialogOptions = {}) {
-  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
-  const [labelId, setLabelId] = React.useState<string | undefined>()
-  const [descriptionId, setDescriptionId] = React.useState<string | undefined>()
+export function useDialog(props: DialogOptions) {
+  const { initialOpen = false, open: controlledOpen, onOpenChange: setControlledOpen } = props
+
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
+  const [labelId, setLabelId] = useState<string | undefined>()
+  const [descriptionId, setDescriptionId] = useState<string | undefined>()
 
   const open = controlledOpen ?? uncontrolledOpen
   const setOpen = setControlledOpen ?? setUncontrolledOpen
@@ -29,7 +27,7 @@ export function useDialog({
 
   const interactions = useInteractions([click, dismiss, role])
 
-  return React.useMemo(
+  return useMemo(
     () => ({
       open,
       setOpen,
